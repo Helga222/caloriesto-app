@@ -1,0 +1,63 @@
+.foodList__item{
+  background: #D9F7BC;
+  margin-bottom: 10px;
+
+  margin: 40px 10px 0px 10px;
+  border-radius: 27px;
+}
+
+.foodList__item:last-child{
+  /*margin-bottom: 10px;*/
+}
+
+.foodList__item__label{
+  background-color: #FFFFFF;
+  width: 362px;
+  height: 42px;
+  border-radius: 37px;
+  font-size: 24px;
+  position: relative;
+  top: -20px;
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.foodList__item__grid {
+  display: flex;
+  flex-direction: column;
+  font-size: 24px;
+  /*max-height: 150px;*/
+  overflow: auto;
+
+}
+
+.foodList__item__row{
+  display: flex;
+}
+
+.foodList__item__header{
+  background-color: #A8ABA0;
+  border-radius: 37px;
+  width:60%;
+  margin: 0 12px 12px 12px;
+  text-align: center;
+  
+}
+.foodList__item__product{
+  background-color: #D9D9D9;
+  width:60%;
+  margin: 0 12px 12px 12px;
+  text-align: center;
+}
+.foodList__item__result{
+  background-color: #A8AB9F;
+  color: #FFFFFF;
+  width:60%;
+  margin: 0 12px 12px 12px;
+  text-align: center;
+}
+.grid__item{
+  width:80%;
+  margin: 0 auto 12px auto;
+}
