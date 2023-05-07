@@ -33,7 +33,7 @@ export const MainPage = () =>{
         </button>
       </div>
     </div>
-    <div className="foodList">
+    <div className={styles.foodList}>
       <MealTableListPage meals={userData.meals}></MealTableListPage>
     </div>
   </div>
