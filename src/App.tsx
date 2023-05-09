@@ -6,6 +6,8 @@ import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
 import { MainPage } from "./pages/MainPage";
 import { AddMealPage } from "./pages/AddMealPage";
 import { AuthenticationPage } from "./pages/AuthenticationPage";
+import { DataPage } from "./pages/DataPage";
+import { CalculatorPage } from "./pages/CalculatorPage";
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
           <Route path="/accounts/id" element={<MainPage />} />
           <Route path="/addmeal" element={<AddMealPage />} />
           <Route path="/" element={<AuthenticationPage />} />
+          <Route path="/data" element={<DataPage />} />
+          <Route path="/calculator" element={<CalculatorPage />} />
         </Routes>
       </div>
     </BrowserRouter>
