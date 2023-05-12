@@ -18,14 +18,14 @@
   margin-top: 20px;
   display: flex;
   flex-direction: column;
-  align-items: baseline;
+  align-items: center;
   gap: 10px;
 }
 
 .calc__row {
   display: flex;
   gap: 5px;
-  width: 300px;
+  width: 500px;
   align-items: center;
   justify-content: stretch;
 
@@ -33,12 +33,12 @@
 }
 
 .calc__label {
-  width: 30%;
+  width: 40%;
 }
 
 .calc__input {
   text-align: center;
-  width: 70%;
+  width: 80%;
   height: 30px;
 }
 

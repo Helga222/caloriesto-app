@@ -73,4 +73,56 @@ const userData:MealList ={
   meals:[breakfast,supper,dinner]
 };
 
+export type User = {
+  //id:string;
+  email:string;
+  password:string;
+  name:string
+
+  age:number;
+  gender:string;
+  weight:number;
+  height:number;
+  calorieGoal: number;
+  coeff: number,
+  data?:MealList;
+}
+
+export const userConverter = {
+  toFirestore: (user:User) => {
+      return {
+          name: user.name,
+          email: user.email,
+          password: user.password,
+          calorieGoal: user.calorieGoal,
+          age:user.age,
+          height:user.height,
+          weight:user.weight,
+          gender:user.gender,
+          coeff:user.coeff
+          };
+  },
+  fromFirestore: (snapshot:any, options:any):User => {
+      const data = snapshot.data(options);
+      const dataUser:User = {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        calorieGoal:data.calorieGoal,
+        age:data.age,
+        height:data.height,
+        weight:data.weight,
+        gender:data.gender,
+        coeff:data.coeff
+        };
+      return dataUser;
+  }
+};
+
+/*export const Tom:User = {
+  id:'12',
+  login:'Tom',
+  
+}*/
+
 export default userData;
