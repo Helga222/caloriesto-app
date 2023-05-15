@@ -31,7 +31,7 @@ import {
   getDoc,
   updateDoc,
 } from "firebase/firestore";
-import { userConverter } from "./meals";
+import { Meal, Product, mealConverter, productArr, userConverter } from "./meals";
 
 function App() {
   const [user, setUser] = useState({
@@ -44,9 +44,31 @@ function App() {
     weight: 0,
     coeff: 1.2,
     calorieGoal: 0,
+    id: "",
   });
   const auth = getAuth(app);
   const db = collection(database, "users");
+  const currentDate = Date.now().toString();
+  const [mealDayList, setMealDayList] = useState<Meal[]>([
+    {
+      type: "Завтрак",
+      date: currentDate,
+      products: [],
+      userId: user.id,
+    },
+    {
+      type: "Обед",
+      date: currentDate,
+      products: [],
+      userId: user.id,
+    },
+    {
+      type: "Ужин",
+      date: currentDate,
+      products: [],
+      userId: user.id,
+    },
+  ]);
 
   const navigate = useNavigate();
 
@@ -59,12 +81,22 @@ function App() {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         readData(user.uid);
+        readMealList(user.uid);
         console.log(user.uid);
       } else {
         // User not logged in or has just logged out.
       }
     });
   }, []);
+
+  const addMealToDayList = (meal: Meal) => {
+    const currentType = meal.type.toLowerCase();
+    const newArr = [...mealDayList];
+    const index = newArr.findIndex(item=>item.type.toLowerCase()===currentType);
+    newArr[index] = meal;
+    setMealDayList(newArr);
+    updateMealList(newArr);
+  };
 
   const readData = async (id: string) => {
     const dataToUpdate = doc(database, "users", id).withConverter(
@@ -74,6 +106,22 @@ function App() {
     const data = await getDoc(dataToUpdate);
     if (data.exists()) {
       setUser(data.data());
+      setMealDayList(
+        mealDayList.map((meal) => {
+          meal.userId = id;
+          return meal;
+        })
+      );
+    }
+  };
+
+  const readMealList = async (id: string) => {
+    const dataToUpdate = doc(database, "mealDayList", id).withConverter(mealConverter);
+
+    const data = await getDoc(dataToUpdate);
+    if (data.exists()) {
+      const mealList = {...data.data()}
+      setMealDayList(data.data());
     }
   };
 
@@ -85,6 +133,13 @@ function App() {
     const data = await updateDoc(dataToUpdate, {
       ...user,
     });
+  };
+
+  const updateMealList = async(meals:Meal[]) => {
+   /* meals.forEach(async(meal,index)=>{
+      await setDoc(doc(database, "mealDayList",user.id),{...meal},{merge:true})
+    })*/
+    await setDoc(doc(database, "mealDayList",user.id).withConverter(mealConverter),{...meals},{merge:true})
   };
 
   const calcCalorieGoal = async (id: string) => {
@@ -120,6 +175,7 @@ function App() {
           coeff: user.coeff,
           age: user.age,
           calorieGoal: user.calorieGoal,
+          id: user.id,
         })
           .then(() => {
             alert("Data added");
@@ -130,6 +186,22 @@ function App() {
       .catch((err) => {
         alert(err.message);
       });
+  };
+
+  const addDataToDB = () => {
+    productArr.forEach((product) => {
+      addDoc(collection(database, "products"), {
+        name: product.name,
+        proteins: product.proteins,
+        fats: product.fats,
+        carbos: product.carbos,
+        calories: product.calories,
+      })
+        .then(() => {
+          alert("Data added");
+        })
+        .catch((err) => alert(err.message));
+    });
   };
 
   const handleSubmit = () => {
@@ -149,9 +221,18 @@ function App() {
       <Routes>
         <Route
           path="/accounts/:id"
-          element={<MainPage name={user.name} calorieGoal={user.calorieGoal} />}
+          element={
+            <MainPage
+              meals={mealDayList}
+              name={user.name}
+              calorieGoal={user.calorieGoal}
+            />
+          }
         />
-        <Route path="/addmeal" element={<AddMealPage />} />
+        <Route
+          path="/addmeal/:id"
+          element={<AddMealPage onHandleClick={addMealToDayList} />}
+        />
         <Route
           path="/"
           element={

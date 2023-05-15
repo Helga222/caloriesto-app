@@ -33,7 +33,7 @@
 }
 
 .foodList__item__row{
-  display: flex;
+  display: flex; 
 }
 
 .foodList__item__header{
@@ -60,4 +60,7 @@
 .grid__item{
   width:80%;
   margin: 0 auto 12px auto;
+}
+.hidden{
+  visibility: hidden;
 }

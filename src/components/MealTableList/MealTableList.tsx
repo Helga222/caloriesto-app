@@ -1,11 +1,10 @@
-import { Meal,MealList } from "../../meals";
+import { Meal, MealList } from "../../meals";
 import { MealTable } from "../MealTable/MealTable";
 
-export const MealTableList = ({meals}:MealList) => {
+export const MealTableList = ({ meals }: MealList) => {
   const mealArray = meals.map((meal) => (
     <MealTable
-      date={meal.date}
-      id={meal.id}
+      deletable={0}
       products={meal.products}
       type={meal.type}
     ></MealTable>

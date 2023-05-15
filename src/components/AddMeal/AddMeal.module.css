@@ -6,6 +6,7 @@ select{
 
 .meal__form{
   background-color:#D9D9D9 ;
+  
 }
 
 .meal__type {
@@ -26,6 +27,14 @@ select{
   margin-bottom: 10px;
   margin-right: 10px;
   text-align: center;
+  width: 100%;
+}
+
+.meal__list{
+  margin-bottom: 10px;
+  margin: 0 10px 10px auto;
+  text-align: center;
+  width: 1000px;
 }
 
 .meal__input__count{

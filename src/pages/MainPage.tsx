@@ -1,4 +1,4 @@
-import userData, { User, userConverter } from "../meals";
+import userData, { Meal, User, userConverter } from "../meals";
 import { MealTableListPage } from "./MealTableListPage";
 import styles from "../App.module.css";
 import { useNavigate, useParams } from "react-router-dom";
@@ -8,12 +8,13 @@ import { app, database } from "../firebaseConfig";
 import { collection, addDoc } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { MealTable } from "../components/MealTable/MealTable";
 
 
 // Firestore data converter
 
 
-export const MainPage = (props:any) => {
+export const MainPage = (props: { meals: Meal[], name:string, calorieGoal: number }) => {
   /*const auth = getAuth(app);
   const currentUser = auth.currentUser;
   const [user, loading, error] = useAuthState(auth);*/
@@ -71,7 +72,7 @@ export const MainPage = (props:any) => {
           </button>
         </div>
         <div>
-          <button
+          <button onClick={()=>navigate(`/addmeal/${id}`)}
             className={`${styles.menu__button} ${styles.menu__button__add} ${styles.menu__button__thin}`}
           >
             Добавить прием пищи
@@ -95,7 +96,10 @@ export const MainPage = (props:any) => {
         </div>
       </div>
       <div className={styles.foodList}>
-        <MealTableListPage meals={userData.meals}></MealTableListPage>
+       {/* <MealTableListPage meals={props.meals}></MealTableListPage>*/}
+       <MealTable deletable={0} products={props.meals[0].products} type={props.meals[0].type}></MealTable>
+       <MealTable deletable={0} products={props.meals[1].products} type={props.meals[1].type}></MealTable>
+       <MealTable deletable={0} products={props.meals[2].products} type={props.meals[2].type}></MealTable>
       </div>
     </div>
   );
