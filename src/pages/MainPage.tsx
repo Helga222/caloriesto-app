@@ -1,4 +1,4 @@
-import userData, { Meal, User, userConverter } from "../meals";
+import { Meal, User, userConverter } from "../meals";
 import { MealTableListPage } from "./MealTableListPage";
 import styles from "../App.module.css";
 import { useNavigate, useParams } from "react-router-dom";

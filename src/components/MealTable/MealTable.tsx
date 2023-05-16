@@ -1,11 +1,11 @@
 import React from "react";
 import styles from "./MealTable.module.css";
-import userData, { Product } from "../../meals";
+import { Product } from "../../meals";
 import { Meal } from "../../meals";
 import { type } from "os";
 
 
-export const MealTable = (props: { products: Product[], type:string, deletable:number, onDeleteClick?: any,onEditMeal?: any, index?:number}) => {
+export const MealTable = (props: { products: Product[],type:string, deletable:number, onDeleteClick?: any,onEditMeal?: any, index?:number}) => {
 
   const onEditMeal = (event:any)=>{
     props.onEditMeal(event.target.value);

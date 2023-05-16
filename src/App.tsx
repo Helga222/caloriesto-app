@@ -49,7 +49,7 @@ function App() {
   });
   const auth = getAuth(app);
   const db = collection(database, "users");
-  const currentDate = Date.now().toString();
+  const currentDate = (new Date()).toLocaleDateString();
   const [editedMeal,setEditedMeal] = useState<Meal>();
   const [mealDayList, setMealDayList] = useState<Meal[]>([
     {
@@ -124,7 +124,7 @@ function App() {
   };
 
   const readMealList = async (id: string) => {
-    const dataToUpdate = doc(database, "mealDayList", id).withConverter(mealConverter);
+    const dataToUpdate = doc(database, "mealDayList", `${currentDate}_${id}`).withConverter(mealConverter);
 
     const data = await getDoc(dataToUpdate);
     if (data.exists()) {
@@ -147,7 +147,7 @@ function App() {
    /* meals.forEach(async(meal,index)=>{
       await setDoc(doc(database, "mealDayList",user.id),{...meal},{merge:true})
     })*/
-    await setDoc(doc(database, "mealDayList",user.id).withConverter(mealConverter),{...meals},{merge:true})
+    await setDoc(doc(database, "mealDayList",`${currentDate}_${user.id}`).withConverter(mealConverter),{...meals},{merge:true})
   };
 
   const calcCalorieGoal = async (id: string) => {
@@ -240,11 +240,11 @@ function App() {
         />
         <Route
           path="/addmeal/:id"
-          element={<AddMealPage onHandleClick={addMealToDayList} />}
+          element={<AddMealPage date={currentDate} onHandleClick={addMealToDayList} />}
         />
           <Route
           path="/addmeal/:id/:mealId"
-          element={<AddMeal meal={editedMeal} onHandleClick={addMealToDayList} />}
+          element={<AddMealPage meal={editedMeal} onHandleClick={addMealToDayList} />}
         />
         <Route
           path="/"
@@ -255,7 +255,7 @@ function App() {
             />
           }
         />
-        <Route path="/data" element={<DataPage />} />
+        <Route path="/data/:id" element={<DataPage meals={mealDayList}/>} />
         <Route
           path="/calculator/:id"
           element={

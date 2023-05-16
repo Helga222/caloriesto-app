@@ -3,6 +3,6 @@ import { Meal } from "../meals"
 
 export const AddMealPage = (props:any) =>{
   return(
-    <AddMeal meal={props.meal} onHandleClick={props.onHandleClick}></AddMeal>
+    <AddMeal date={props.date} meal={props.meal} onHandleClick={props.onHandleClick}></AddMeal>
   )
 }

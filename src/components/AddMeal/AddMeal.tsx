@@ -1,6 +1,6 @@
 import { MealTable } from "../MealTable/MealTable";
 import styles from "./AddMeal.module.css";
-import { Meal, Product, breakfast } from "../../meals";
+import { Meal, Product} from "../../meals";
 import { database } from "../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -16,7 +16,7 @@ export const AddMeal = (props: any) => {
 
   const [meal, setMeal] = useState<Meal>({
     type: props?.meal?.type || "Завтрак",
-    date: props?.meal?.date || "",
+    date: props?.meal?.date || props.date,
     products: props?.meal?.products || [],
     userId: id || "",
   });

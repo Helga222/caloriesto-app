@@ -43,33 +43,10 @@ const apple:Product = {
   proteins:0
 }
 
-export const breakfast:Meal = {
-  date: Date.now().toString(),
-  userId:"1",
-  products:[apple,potato,chicken],
-  type:"Завтрак"
-}
 
-const dinner:Meal = {
-  date: Date.now().toString(),
-  userId:"2",
-  products:[apple,chicken],
-  type:"Ужин"
-}
-
-const supper:Meal = {
-  date: Date.now().toString(),
-  userId:"3",
-  products:[],
-  type:"Обед"
-}
 export type MealList = {
   meals:Meal[]
 }
-
-const userData:MealList ={
-  meals:[breakfast,supper,dinner]
-};
 
 export type User = {
   id:string;
@@ -125,7 +102,7 @@ export const mealConverter = {
       date:meal.date,
       products:meal.products,
       type:meal.type,
-      userId:meal.userId
+      userId:meal.userId,
   }))
     return {...array}
 },
@@ -136,7 +113,7 @@ export const mealConverter = {
         date:meal.date,
         products:meal.products,
         type:meal.type,
-        userId:meal.userId
+        userId:meal.userId,
       }))
     return dataMeals;
 }};
@@ -248,4 +225,4 @@ export const productArr:Product[] =[
   },
 ] 
 
-export default userData;
+//export default userData;
