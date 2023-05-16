@@ -14,7 +14,7 @@ import { MealTable } from "../components/MealTable/MealTable";
 // Firestore data converter
 
 
-export const MainPage = (props: { meals: Meal[], name:string, calorieGoal: number }) => {
+export const MainPage = (props: { meals: Meal[], name:string, calorieGoal: number,onEditMeal:any }) => {
   /*const auth = getAuth(app);
   const currentUser = auth.currentUser;
   const [user, loading, error] = useAuthState(auth);*/
@@ -97,9 +97,9 @@ export const MainPage = (props: { meals: Meal[], name:string, calorieGoal: numbe
       </div>
       <div className={styles.foodList}>
        {/* <MealTableListPage meals={props.meals}></MealTableListPage>*/}
-       <MealTable deletable={0} products={props.meals[0].products} type={props.meals[0].type}></MealTable>
-       <MealTable deletable={0} products={props.meals[1].products} type={props.meals[1].type}></MealTable>
-       <MealTable deletable={0} products={props.meals[2].products} type={props.meals[2].type}></MealTable>
+       <MealTable deletable={0} products={props.meals[0].products} index={0} onEditMeal={props.onEditMeal} type={props.meals[0].type}></MealTable>
+       <MealTable deletable={0} products={props.meals[1].products} index={1} onEditMeal={props.onEditMeal} type={props.meals[1].type}></MealTable>
+       <MealTable deletable={0} products={props.meals[2].products} index={2} onEditMeal={props.onEditMeal} type={props.meals[2].type}></MealTable>
       </div>
     </div>
   );

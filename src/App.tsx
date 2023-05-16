@@ -32,6 +32,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { Meal, Product, mealConverter, productArr, userConverter } from "./meals";
+import { AddMeal } from "./components/AddMeal/AddMeal";
 
 function App() {
   const [user, setUser] = useState({
@@ -49,6 +50,7 @@ function App() {
   const auth = getAuth(app);
   const db = collection(database, "users");
   const currentDate = Date.now().toString();
+  const [editedMeal,setEditedMeal] = useState<Meal>();
   const [mealDayList, setMealDayList] = useState<Meal[]>([
     {
       type: "Завтрак",
@@ -72,6 +74,11 @@ function App() {
 
   const navigate = useNavigate();
 
+  const handleEditMeal = (index:number)=>{
+    setEditedMeal(mealDayList[index]);
+   navigate(`/addmeal/${user.id}/${index}`)
+  }
+
   const handleInputs = (event: any) => {
     let inputs = { [event.target.name]: event.target.value };
     setUser({ ...user, ...inputs });
@@ -87,6 +94,7 @@ function App() {
         // User not logged in or has just logged out.
       }
     });
+
   }, []);
 
   const addMealToDayList = (meal: Meal) => {
@@ -226,12 +234,17 @@ function App() {
               meals={mealDayList}
               name={user.name}
               calorieGoal={user.calorieGoal}
+              onEditMeal = {handleEditMeal}
             />
           }
         />
         <Route
           path="/addmeal/:id"
           element={<AddMealPage onHandleClick={addMealToDayList} />}
+        />
+          <Route
+          path="/addmeal/:id/:mealId"
+          element={<AddMeal meal={editedMeal} onHandleClick={addMealToDayList} />}
         />
         <Route
           path="/"

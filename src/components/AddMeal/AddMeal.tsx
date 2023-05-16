@@ -4,42 +4,38 @@ import { Meal, Product, breakfast } from "../../meals";
 import { database } from "../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import Dropdown from "react-bootstrap/Dropdown";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-
-
-export const AddMeal = (props:any) => {
-  const {id} = useParams();
+export const AddMeal = (props: any) => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const [productsSearch, setProductsSearch] = useState<any>([]);
-  const [products,setProducts] = useState<Product[]>([]);
 
-  const [selectedProduct,setSelectedProd] = useState<Product>()
+  const [selectedProduct, setSelectedProd] = useState<Product>();
 
   const [meal, setMeal] = useState<Meal>({
-    type:'Завтрак',
-    date:'',
-    products:[],
-    userId:id || ''
+    type: props?.meal?.type || "Завтрак",
+    date: props?.meal?.date || "",
+    products: props?.meal?.products || [],
+    userId: id || "",
   });
 
-
-
-  const list = productsSearch.map((item: any,index:number) => <option value={index}>{item.name}</option>);
+  const list = productsSearch.map((item: any, index: number) => (
+    <option value={index}>{item.name}</option>
+  ));
 
   const handleInput = (event: any) => {
     getProducts();
-    if (productsSearch && productsSearch.length>0){
+    if (productsSearch && productsSearch.length > 0) {
       const index = event.target.value;
-      setSelectedProd(productsSearch[index])
+      setSelectedProd(productsSearch[index]);
     }
-
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     getProducts();
-  },[])
+  }, []);
 
   const getProducts = async () => {
     const productsRef = collection(database, "products");
@@ -52,70 +48,76 @@ export const AddMeal = (props:any) => {
     //await setSelectedProd(productsSearch[0])
   };
 
+  const handleAddMeal = () => {
+    props.onHandleClick(meal);
+    navigate(`/accounts/${id}`);
+  };
 
+  const handleDeleteProduct = (index: number) => {
+    const newProducts = meal.products.filter(
+      (item) => item !== meal.products[index]
+    );
+    setMeal({ ...meal, ...{ products: newProducts } });
+  };
 
-  const handleAddMeal = ()=>{
-    const newMeal =   {...meal,...{products:products}};
-   setMeal(newMeal);
-  props.onHandleClick(newMeal);
-
-  navigate(`/accounts/${id}`);
-
-  }
-
-  const handleDeleteProduct = (index:number)=>{
-      setProducts(products.filter(item => item !== products[index])); 
-  }
-
-  const handleSubmit = ()=>{
-    if (selectedProduct){
-      setProducts([...products,selectedProduct])
-      console.log('products'+products);
+  const handleSubmit = () => {
+    if (selectedProduct) {
+      setMeal({
+        ...meal,
+        ...{ products: [...meal.products, selectedProduct] },
+      });
     }
-   /* setMeal(...meal,{date:Date.now.toString(),
-      products:[],
-      userId:'id'
-    })*/
-  }
+  };
 
   return (
     <div className={styles.meal__form}>
       <div className={styles.meal__board}>
         Тип приема пищи:
-        <select onChange={(event:any)=>setMeal({...meal,...{type:event.target.value}})}>
+        <select
+          onChange={(event: any) =>
+            setMeal({ ...meal, ...{ type: event.target.value } })
+          }
+        >
           <option>Завтрак</option>
           <option>Обед</option>
           <option>Ужин</option>
         </select>
       </div>
       <div className={`${styles.meal__board} ${styles.flex__column}`}>
-       {/* <input
+        {/* <input
           type="search"
           list="productName"
           className={styles.meal__input__product}
           placeholder="Введите название продукта"
           onChange={handleInput}
   />*/}
-        <select className={styles.meal__input__product} placeholder="Выберите из списка" onChange={handleInput} id="productName">
+        <select
+          className={styles.meal__input__product}
+          placeholder="Выберите из списка"
+          onChange={handleInput}
+          id="productName"
+        >
           {list}
         </select>
         <div className={styles.flex__row}>
-          <button className={styles.meal__button} onClick={handleSubmit}>Добавить</button>
+          <button className={styles.meal__button} onClick={handleSubmit}>
+            Добавить
+          </button>
         </div>
       </div>
       <div className={styles.meal__table}>
         <MealTable
-          products={products}
-          deletable={products.length}
+          products={meal.products}
+          deletable={meal.products.length}
           type={meal.type}
-          onDeleteClick = {handleDeleteProduct}
+          onDeleteClick={handleDeleteProduct}
         ></MealTable>
       </div>
       <div className={styles.flex__row}>
-          <button className={styles.meal__button} onClick={handleAddMeal}>Сохранить</button>
-        </div>
+        <button className={styles.meal__button} onClick={handleAddMeal}>
+          Сохранить
+        </button>
+      </div>
     </div>
   );
 };
-
-

@@ -23,6 +23,21 @@
   text-align: center;
 }
 
+.foodList__ref{
+  position: relative;
+  top: -5px;
+  left: 0px;
+  font-size: 20px;
+  text-align: end;
+  display: block;
+  margin: 0 15px;
+  color: #A8AB9F;;
+}
+.foodList__ref:hover{
+  cursor: pointer;
+  color: blue;
+}
+
 .foodList__item__grid {
   display: flex;
   flex-direction: column;

@@ -5,12 +5,11 @@ import { Meal } from "../../meals";
 import { type } from "os";
 
 
-export const MealTable = (props: { products: Product[], type:string, deletable:number, onDeleteClick?: any }) => {
+export const MealTable = (props: { products: Product[], type:string, deletable:number, onDeleteClick?: any,onEditMeal?: any, index?:number}) => {
 
-const handleClick =(event:any)=>{
-  props.onDeleteClick(event.target.value);
-}
-
+  const onEditMeal = (event:any)=>{
+    props.onEditMeal(event.target.value);
+  }
   let finalCalories:number = 0;
   let finalPropteins:number = 0;
   let finalFats:number = 0;
@@ -53,6 +52,7 @@ const handleClick =(event:any)=>{
           {props.deletable ? <div className={`${styles.foodList__item__result} ${styles.hidden}`}></div> : ''}
         </div>
       </div>
+          { props.onEditMeal ? <data className={styles.foodList__ref} value={props.index} onClick={onEditMeal}>редактировать</data> : ''}
     </div>
   );
 };
