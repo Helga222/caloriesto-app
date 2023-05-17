@@ -49,7 +49,7 @@ function App() {
     id: "",
   });
   const auth = getAuth(app);
-  const currentDate = new Date().toLocaleDateString();
+  const currentDate = new Date(new Date().getFullYear(),new Date().getMonth() , new Date().getDate());
   const [editedMeal, setEditedMeal] = useState<Meal>();
   const [mealDayList, setMealDayList] = useState<MealList>({
     date: currentDate,
@@ -124,13 +124,13 @@ function App() {
     const dataToUpdate = doc(
       database,
       "mealDayList",
-      `${currentDate}_${id}`
+      `${currentDate.toLocaleDateString()}_${id}`
     ).withConverter(mealConverter);
 
     const data = await getDoc(dataToUpdate);
     if (data.exists()) {
       const mealList = { ...data.data() };
-      setMealDayList(data.data());
+      setMealDayList(mealList);
     }
   };
 
@@ -145,8 +145,9 @@ function App() {
   };
 
   const updateMealList = async (mealList: MealList) => {
+    let dateString= currentDate.toLocaleDateString();
     await setDoc(
-      doc(database, "mealDayList", `${currentDate}_${user.id}`).withConverter(
+      doc(database, "mealDayList", `${dateString}_${user.id}`).withConverter(
         mealConverter
       ),
       { ...mealList },

@@ -1,3 +1,6 @@
+import { Timestamp } from "firebase/firestore";
+import { database } from "./firebaseConfig";
+
 export type Product = {
   name:string;
   proteins:number;
@@ -7,7 +10,7 @@ export type Product = {
 }
 
 export type Meal = {
-  date: string;
+  date: Date;
   type: string;
   products:Product[];
 }
@@ -45,7 +48,7 @@ const apple:Product = {
 
 export type MealList = {
   meals:Meal[],
-  date:string,
+  date:Date,
   userId?:string
 }
 
@@ -100,16 +103,17 @@ export const userConverter = {
 export const mealConverter = {
   toFirestore: (mealList:MealList) => {
     const meals = mealList.meals.map(meal=>({
-      date:meal.date,
+      date: meal.date,
       products:meal.products,
       type:meal.type,
   }))
-    return {...mealList,...{meals:meals,date:mealList.date,userId:mealList.userId}}
+    return {...mealList,...{meals:meals,date:Timestamp.fromDate(mealList.date),userId:mealList.userId}}
 },
   
   fromFirestore: (snapshot:any, options:any):MealList => {
       const data = snapshot.data(options) as MealList;
-      const dataMeals = {date:data.date,meals:data.meals,userId:data.userId};
+      const curDate = new Date((data.date as unknown as Timestamp).seconds*1000);
+      const dataMeals = {date:curDate,meals:data.meals,userId:data.userId};
     return dataMeals;
 }};
 

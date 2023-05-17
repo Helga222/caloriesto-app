@@ -72,7 +72,7 @@ export const AddMeal = (props: any) => {
     <div className={styles.meal__form}>
       <div className={styles.meal__board}>
         Тип приема пищи:
-        <select
+        <select value={meal.type}
           onChange={(event: any) =>
             setMeal({ ...meal, ...{ type: event.target.value } })
           }
