@@ -1,11 +1,8 @@
-import React, { ReactEventHandler, SyntheticEvent, useEffect } from "react";
+import { useEffect } from "react";
 import styles from "./App.module.css";
-import { Button, Col, Container, Row } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import {
-  BrowserRouter,
   Route,
-  Router,
   Routes,
   useNavigate,
 } from "react-router-dom";
@@ -14,7 +11,6 @@ import { AddMealPage } from "./pages/AddMealPage";
 import { AuthenticationPage } from "./pages/AuthenticationPage";
 import { DataPage } from "./pages/DataPage";
 import { CalculatorPage } from "./pages/CalculatorPage";
-//import { Tom as user } from "./meals";
 import { app, database } from "./firebaseConfig";
 import {
   getAuth,
@@ -31,8 +27,13 @@ import {
   getDoc,
   updateDoc,
 } from "firebase/firestore";
-import { Meal, Product, mealConverter, productArr, userConverter } from "./meals";
-import { AddMeal } from "./components/AddMeal/AddMeal";
+import {
+  Meal,
+  MealList,
+  mealConverter,
+  productArr,
+  userConverter,
+} from "./meals";
 
 function App() {
   const [user, setUser] = useState({
@@ -48,36 +49,36 @@ function App() {
     id: "",
   });
   const auth = getAuth(app);
-  const db = collection(database, "users");
-  const currentDate = (new Date()).toLocaleDateString();
-  const [editedMeal,setEditedMeal] = useState<Meal>();
-  const [mealDayList, setMealDayList] = useState<Meal[]>([
-    {
-      type: "Завтрак",
-      date: currentDate,
-      products: [],
-      userId: user.id,
-    },
-    {
-      type: "Обед",
-      date: currentDate,
-      products: [],
-      userId: user.id,
-    },
-    {
-      type: "Ужин",
-      date: currentDate,
-      products: [],
-      userId: user.id,
-    },
-  ]);
+  const currentDate = new Date().toLocaleDateString();
+  const [editedMeal, setEditedMeal] = useState<Meal>();
+  const [mealDayList, setMealDayList] = useState<MealList>({
+    date: currentDate,
+    userId: user.id,
+    meals: [
+      {
+        type: "Завтрак",
+        date: currentDate,
+        products: [],
+      },
+      {
+        type: "Обед",
+        date: currentDate,
+        products: [],
+      },
+      {
+        type: "Ужин",
+        date: currentDate,
+        products: [],
+      },
+    ],
+  });
 
   const navigate = useNavigate();
 
-  const handleEditMeal = (index:number)=>{
-    setEditedMeal(mealDayList[index]);
-   navigate(`/addmeal/${user.id}/${index}`)
-  }
+  const handleEditMeal = (index: number) => {
+    setEditedMeal(mealDayList.meals[index]);
+    navigate(`/addmeal/${user.id}/${index}`);
+  };
 
   const handleInputs = (event: any) => {
     let inputs = { [event.target.name]: event.target.value };
@@ -94,14 +95,15 @@ function App() {
         // User not logged in or has just logged out.
       }
     });
-
   }, []);
 
   const addMealToDayList = (meal: Meal) => {
     const currentType = meal.type.toLowerCase();
-    const newArr = [...mealDayList];
-    const index = newArr.findIndex(item=>item.type.toLowerCase()===currentType);
-    newArr[index] = meal;
+    const newArr = { ...mealDayList };
+    const index = newArr.meals.findIndex(
+      (item) => item.type.toLowerCase() === currentType
+    );
+    newArr.meals[index] = meal;
     setMealDayList(newArr);
     updateMealList(newArr);
   };
@@ -114,21 +116,20 @@ function App() {
     const data = await getDoc(dataToUpdate);
     if (data.exists()) {
       setUser(data.data());
-      setMealDayList(
-        mealDayList.map((meal) => {
-          meal.userId = id;
-          return meal;
-        })
-      );
+      setMealDayList({ ...mealDayList, ...{ userId: data.id } });
     }
   };
 
   const readMealList = async (id: string) => {
-    const dataToUpdate = doc(database, "mealDayList", `${currentDate}_${id}`).withConverter(mealConverter);
+    const dataToUpdate = doc(
+      database,
+      "mealDayList",
+      `${currentDate}_${id}`
+    ).withConverter(mealConverter);
 
     const data = await getDoc(dataToUpdate);
     if (data.exists()) {
-      const mealList = {...data.data()}
+      const mealList = { ...data.data() };
       setMealDayList(data.data());
     }
   };
@@ -143,11 +144,14 @@ function App() {
     });
   };
 
-  const updateMealList = async(meals:Meal[]) => {
-   /* meals.forEach(async(meal,index)=>{
-      await setDoc(doc(database, "mealDayList",user.id),{...meal},{merge:true})
-    })*/
-    await setDoc(doc(database, "mealDayList",`${currentDate}_${user.id}`).withConverter(mealConverter),{...meals},{merge:true})
+  const updateMealList = async (mealList: MealList) => {
+    await setDoc(
+      doc(database, "mealDayList", `${currentDate}_${user.id}`).withConverter(
+        mealConverter
+      ),
+      { ...mealList },
+      { merge: true }
+    );
   };
 
   const calcCalorieGoal = async (id: string) => {
@@ -231,20 +235,24 @@ function App() {
           path="/accounts/:id"
           element={
             <MainPage
-              meals={mealDayList}
+              meals={mealDayList.meals}
               name={user.name}
               calorieGoal={user.calorieGoal}
-              onEditMeal = {handleEditMeal}
+              onEditMeal={handleEditMeal}
             />
           }
         />
         <Route
           path="/addmeal/:id"
-          element={<AddMealPage date={currentDate} onHandleClick={addMealToDayList} />}
+          element={
+            <AddMealPage date={currentDate} onHandleClick={addMealToDayList} />
+          }
         />
-          <Route
+        <Route
           path="/addmeal/:id/:mealId"
-          element={<AddMealPage meal={editedMeal} onHandleClick={addMealToDayList} />}
+          element={
+            <AddMealPage meal={editedMeal} onHandleClick={addMealToDayList} />
+          }
         />
         <Route
           path="/"
@@ -255,7 +263,10 @@ function App() {
             />
           }
         />
-        <Route path="/data/:id" element={<DataPage meals={mealDayList}/>} />
+        <Route
+          path="/data/:id"
+          element={<DataPage date={currentDate} meals={mealDayList.meals} />}
+        />
         <Route
           path="/calculator/:id"
           element={

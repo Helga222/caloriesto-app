@@ -77,7 +77,7 @@ export const MainPage = (props: { meals: Meal[], name:string, calorieGoal: numbe
           >
             Добавить прием пищи
           </button>
-          <button
+          <button onClick={()=>navigate(`/data/${id}`)}
             className={`${styles.menu__button} ${styles.menu__button__data} ${styles.menu__button__thin}`}
           >
             Мои данные

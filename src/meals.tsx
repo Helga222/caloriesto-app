@@ -10,7 +10,6 @@ export type Meal = {
   date: string;
   type: string;
   products:Product[];
-  userId:string
 }
 
 const chicken:Product = {
@@ -45,7 +44,9 @@ const apple:Product = {
 
 
 export type MealList = {
-  meals:Meal[]
+  meals:Meal[],
+  date:string,
+  userId?:string
 }
 
 export type User = {
@@ -97,24 +98,18 @@ export const userConverter = {
 };
 
 export const mealConverter = {
-  toFirestore: (mealList:Meal[]) => {
-    const array = Object.values(mealList).map(meal=>({
+  toFirestore: (mealList:MealList) => {
+    const meals = mealList.meals.map(meal=>({
       date:meal.date,
       products:meal.products,
       type:meal.type,
-      userId:meal.userId,
   }))
-    return {...array}
+    return {...mealList,...{meals:meals,date:mealList.date,userId:mealList.userId}}
 },
   
-  fromFirestore: (snapshot:any, options:any):Meal[] => {
-      const data = snapshot.data(options) as Meal[];
-      const dataMeals = Object.values(data).map((meal)=>({
-        date:meal.date,
-        products:meal.products,
-        type:meal.type,
-        userId:meal.userId,
-      }))
+  fromFirestore: (snapshot:any, options:any):MealList => {
+      const data = snapshot.data(options) as MealList;
+      const dataMeals = {date:data.date,meals:data.meals,userId:data.userId};
     return dataMeals;
 }};
 

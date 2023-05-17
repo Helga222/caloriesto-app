@@ -18,7 +18,6 @@ export const AddMeal = (props: any) => {
     type: props?.meal?.type || "Завтрак",
     date: props?.meal?.date || props.date,
     products: props?.meal?.products || [],
-    userId: id || "",
   });
 
   const list = productsSearch.map((item: any, index: number) => (

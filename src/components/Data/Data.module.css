@@ -26,12 +26,15 @@
   border-radius: 27px;
   width:150px;
   text-align: center;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
 }
 
-.days__item:hover {
+/*.days__item:hover {
   background-color: #A8AB9F;
   cursor:pointer;
-}
+}*/
 
 .table__column {
   display: flex;
