@@ -261,6 +261,17 @@ function App() {
             <AuthenticationPage
               onHandleSubmit={handleSubmit}
               onHandleInputs={handleInputs}
+              registration={false}
+            />
+          }
+        />
+        <Route
+          path="/registration"
+          element={
+            <AuthenticationPage
+              onHandleSubmit={handleRegister}
+              onHandleInputs={handleInputs}
+              registration={true}
             />
           }
         />

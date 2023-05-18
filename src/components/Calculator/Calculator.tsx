@@ -3,7 +3,7 @@ import styles from "./Calculator.module.css";
 import { User, userConverter } from "../../meals";
 import { database } from "../../firebaseConfig";
 import { doc, getDoc, updateDoc, collection, setDoc } from "firebase/firestore";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 
 export const Calculator = (props: any) => {
   const { id } = useParams();
@@ -49,6 +49,8 @@ export const Calculator = (props: any) => {
 
   return (
     <div className={styles.calc__content}>
+      <div className={styles.calc__navlink}>      <NavLink  to={`/accounts/${id}`} >назад</NavLink></div>
+
       <div className={styles.calc__text}>
         Калькулятор калорий позволит вам рассчитать то количество энергии,
         которое необходимо ежедневно получать вашему организму в зависимости от

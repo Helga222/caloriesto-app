@@ -7,6 +7,17 @@
   align-items: center;
 }
 
+.calc__navlink {
+  width: 100%;
+  margin-bottom: 5px;
+
+}
+
+.calc__navlink a {
+  color: #D9D9D9;
+  cursor: pointer;
+}
+
 .calc__text {
   background-color: #D9D9D9;
   tab-size: 24px;
@@ -42,7 +53,7 @@
   height: 30px;
 }
 
-.calc__button{
+.calc__button {
   background-color: #D9F7BC;
   border-radius: 27px;
   border: none;
@@ -50,7 +61,7 @@
   margin-top: 10px;
 }
 
-.calc__value{
+.calc__value {
   font-size: 30px;
   color: #D9F7BC;
   margin: 0 auto;

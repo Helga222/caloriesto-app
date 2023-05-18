@@ -8,6 +8,9 @@
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
+  padding: 0px 10px;
+  padding-top: 30px;
+  gap: 30px;
 }
 
 .menu {
@@ -15,6 +18,13 @@
   width: 200px;
   display: flex;
   flex-direction: column;
+  padding: 5px;
+  gap: 5px;
+}
+
+.menu:first-child{
+  display: flex;
+  align-items: stretch;
 }
 
 .menu__button {
@@ -55,4 +65,7 @@
 
 .wrapper {
   border: 2px solid black;
+  min-height: 100%;
+  overflow: hidden;
 }
+

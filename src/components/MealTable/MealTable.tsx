@@ -52,7 +52,7 @@ export const MealTable = (props: { products: Product[],type:string, deletable:nu
           {props.deletable ? <div className={`${styles.foodList__item__result} ${styles.hidden}`}></div> : ''}
         </div>
       </div>
-          { props.onEditMeal ? <data className={styles.foodList__ref} value={props.index} onClick={onEditMeal}>редактировать</data> : ''}
+          { props.onEditMeal ? <div className={styles.foodList__ref} ><data value={props.index} onClick={onEditMeal}>редактировать</data> </div>: ''}
     </div>
   );
 };

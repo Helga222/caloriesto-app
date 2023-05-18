@@ -3,7 +3,7 @@ import { MealList, mealConverter } from "../../meals";
 import styles from "./Data.module.css";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { database } from "../../firebaseConfig";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 
 export const Data = (props: MealList) => {
   const {id} = useParams();
@@ -82,21 +82,22 @@ export const Data = (props: MealList) => {
 
   return (
     <div className={styles.content}>
+      <NavLink className={styles.days__nav} to={`/accounts/${id}`}>назад</NavLink>
       <div className={styles.days}>
         <div className={styles.days__item}>
-          <input type="radio" checked={selectedDays == '0' ? true : false} id="contactChoice1" name="contact" onChange={handleChange}  value="0" />
+          <input type="radio" checked={selectedDays === '0' ? true : false} id="contactChoice1" name="contact" onChange={handleChange}  value="0" />
           <label htmlFor="contactChoice1">Сегодня</label>
         </div>
         <div className={styles.days__item}>
-        <input type="radio" checked={selectedDays == '7' ? true : false} id="contactChoice1" name="contact" onChange={handleChange} value="7" />
+        <input type="radio" checked={selectedDays === '7' ? true : false} id="contactChoice1" name="contact" onChange={handleChange} value="7" />
         <label htmlFor="contactChoice1">7 дней</label>
         </div>
         <div className={styles.days__item}>
-        <input type="radio" checked={selectedDays == '14' ? true : false} id="contactChoice1" name="contact"  onChange={handleChange} value="14" />
+        <input type="radio" checked={selectedDays === '14' ? true : false} id="contactChoice1" name="contact"  onChange={handleChange} value="14" />
         <label htmlFor="contactChoice1">14 дней</label>
         </div>
         <div className={styles.days__item}>
-        <input type="radio" checked={selectedDays == '30' ? true : false} id="contactChoice1" name="contact"onChange={handleChange} value="30" />
+        <input type="radio" checked={selectedDays === '30' ? true : false} id="contactChoice1" name="contact"onChange={handleChange} value="30" />
         <label htmlFor="contactChoice1">30 дней</label>
         </div>
       </div>

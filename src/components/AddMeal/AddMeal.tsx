@@ -5,7 +5,7 @@ import { database } from "../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 
 export const AddMeal = (props: any) => {
   const { id } = useParams();
@@ -70,6 +70,7 @@ export const AddMeal = (props: any) => {
 
   return (
     <div className={styles.meal__form}>
+      <NavLink className={styles.meal__navlink} to={`/accounts/${id}`}>назад</NavLink>
       <div className={styles.meal__board}>
         Тип приема пищи:
         <select value={meal.type}

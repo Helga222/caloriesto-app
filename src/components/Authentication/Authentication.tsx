@@ -19,6 +19,7 @@ export const Authentication = (props: any) => {
       <h1>Форма регистрации</h1>
       <div className={styles.auth__form} >
         <div className={styles.form__content}>
+          { props.registration &&
         <div className={styles.auth__row}>
             <div className={styles.auth__column}>
               <label className={styles.auth__login}>Имя:</label>
@@ -32,7 +33,7 @@ export const Authentication = (props: any) => {
                 onChange={handleChange}
               />
             </div>
-          </div>
+          </div>}
           <div className={styles.auth__row}>
             <div className={styles.auth__column}>
               <label className={styles.auth__login}>Логин:</label>
@@ -63,7 +64,7 @@ export const Authentication = (props: any) => {
           </div>
           <div className={styles.auth__row}>
             <button  onClick={handleSubmit} className={styles.auth__button}>
-              Войти
+              {props.registration ? 'Зарегестрироваться': 'Войти'}
             </button>
           </div>
         </div>

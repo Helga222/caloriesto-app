@@ -11,6 +11,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { MealTable } from "../components/MealTable/MealTable";
 
 
+
 // Firestore data converter
 
 
@@ -88,7 +89,10 @@ export const MainPage = (props: { meals: Meal[], name:string, calorieGoal: numbe
           >
             Калькулятор калорий
           </button>
-          <button
+
+        </div>
+        <div>
+        <button
             className={`${styles.menu__button} ${styles.menu__button__exit} ${styles.menu__button__thin}`}
           >
             Выход
@@ -96,7 +100,6 @@ export const MainPage = (props: { meals: Meal[], name:string, calorieGoal: numbe
         </div>
       </div>
       <div className={styles.foodList}>
-       {/* <MealTableListPage meals={props.meals}></MealTableListPage>*/}
        <MealTable deletable={0} products={props.meals[0].products} index={0} onEditMeal={props.onEditMeal} type={props.meals[0].type}></MealTable>
        <MealTable deletable={0} products={props.meals[1].products} index={1} onEditMeal={props.onEditMeal} type={props.meals[1].type}></MealTable>
        <MealTable deletable={0} products={props.meals[2].products} index={2} onEditMeal={props.onEditMeal} type={props.meals[2].type}></MealTable>
