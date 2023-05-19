@@ -17,6 +17,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
+  signOut,
 } from "firebase/auth";
 import { useState } from "react";
 import {
@@ -134,13 +135,13 @@ function App() {
     }
   };
 
-  const updateData = async (id: string) => {
+  const updateData = async (id: string,goal?:number) => {
     const dataToUpdate = doc(database, "users", id).withConverter(
       userConverter
     );
 
     const data = await updateDoc(dataToUpdate, {
-      ...user,
+      ...user,...{calorieGoal:goal}
     });
   };
 
@@ -170,8 +171,10 @@ function App() {
     const goal = Math.floor((bmr * user.coeff * 100) / 100);
 
     await setUser({ ...user, ...{ calorieGoal: goal } });
+    //setTimeout(()=> setUser({ ...user, ...{ calorieGoal: goal } }));
+    //setImmediate(() => updateData(id));
+    await updateData(id,goal);
 
-    updateData(id);
   };
 
   const handleRegister = () => {
@@ -187,13 +190,15 @@ function App() {
           height: user.height,
           coeff: user.coeff,
           age: user.age,
+          gender:user.gender,
           calorieGoal: user.calorieGoal,
-          id: user.id,
+          id: userId,
         })
           .then(() => {
             alert("Data added");
           })
           .catch((err) => alert(err.message));
+          setUser({...user,...{id:userId}});
         navigate(`/accounts/${userId}`);
       })
       .catch((err) => {
@@ -217,6 +222,11 @@ function App() {
     });
   };
 
+  const logout = () => {
+    signOut(auth);
+    navigate(`/`)
+  };
+
   const handleSubmit = () => {
     signInWithEmailAndPassword(auth, user.email, user.password)
       .then((response) => {
@@ -224,9 +234,15 @@ function App() {
         const userId = response.user.uid;
         navigate(`/accounts/${userId}`);
       })
-      .catch((err) => {
-        alert(err.message);
-      });
+      .catch((error) => {
+        if(error.code === 'auth/wrong-password'){
+          alert('Пароль введен неверно(');
+        }
+        if(error.code === 'auth/user-not-found'){
+          alert('Пользоваьельн не найден. Зарегестрируйтесь, пожалуйста)');
+          navigate('/registration');
+        }
+      })
   };
 
   return (
@@ -240,6 +256,7 @@ function App() {
               name={user.name}
               calorieGoal={user.calorieGoal}
               onEditMeal={handleEditMeal}
+              onLogout={logout}
             />
           }
         />

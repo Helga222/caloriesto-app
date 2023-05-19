@@ -44,7 +44,7 @@ export const Calculator = (props: any) => {
 
   let goal = 0;
   const handleSubmit = (event: any) => {
-    props.onHandleClick(id);
+    goal = props.onHandleClick(id);
   };
 
   return (
@@ -62,7 +62,7 @@ export const Calculator = (props: any) => {
           <label className={styles.calc__label}>Пол:</label>
           <select
             className={styles.calc__input}
-            value={params.gender ? params.gender : ""}
+            value={params.gender ? params.gender : "мужской"}
             name="gender"
             onChange={handleInputs}
           >
@@ -135,7 +135,7 @@ export const Calculator = (props: any) => {
           <div className={styles.calc__value}>
             {params.calorieGoal.toFixed(2)} кКал
           </div>
-        ) : null}
+        ) : ''}
       </div>
     </div>
   );

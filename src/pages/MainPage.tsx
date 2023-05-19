@@ -15,7 +15,7 @@ import { MealTable } from "../components/MealTable/MealTable";
 // Firestore data converter
 
 
-export const MainPage = (props: { meals: Meal[], name:string, calorieGoal: number,onEditMeal:any }) => {
+export const MainPage = (props: { meals: Meal[], name:string, calorieGoal: number,onEditMeal:any,onLogout:any }) => {
   /*const auth = getAuth(app);
   const currentUser = auth.currentUser;
   const [user, loading, error] = useAuthState(auth);*/
@@ -92,7 +92,7 @@ export const MainPage = (props: { meals: Meal[], name:string, calorieGoal: numbe
 
         </div>
         <div>
-        <button
+        <button onClick={props.onLogout}
             className={`${styles.menu__button} ${styles.menu__button__exit} ${styles.menu__button__thin}`}
           >
             Выход
