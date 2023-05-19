@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 .content {
   display: flex;
   text-align: center;
@@ -11,53 +15,68 @@
   padding: 0px 10px;
   padding-top: 30px;
   gap: 30px;
+  overflow: auto;
+  min-width: 550px;
 }
 
 .menu {
   background: #D9D9D9;
-  width: 200px;
+  max-width: 200px;
   display: flex;
   flex-direction: column;
   padding: 5px;
   gap: 5px;
+
 }
 
-.menu:first-child{
+.menu__item {
   display: flex;
-  align-items: stretch;
+  flex-direction: column;
+  height: 100%;
+  position: sticky;
+  top: 5px;
 }
 
 .menu__button {
-  width: 180px;
+  flex: 1 1 auto;
   border-radius: 27px;
   margin-bottom: 10px;
+
 }
-.menu__button__thin{
+
+.menu__button__thin {
   height: 50px;
 }
-.menu__button__thick{
+
+.menu__button__thick {
   height: 100px;
 }
 
 .menu__button__user {
   background: #5AD27B;
 }
+
 .menu__button__rest {
   background: #9CD7B7;
 }
+
 .menu__button__goal {
   background: #5AD27B;
 }
-.menu__button__add{
+
+.menu__button__add {
   background: #C1FF85;
 }
-.menu__button__data{
+
+.menu__button__data {
   background: #DBFFB9;
 }
-.menu__button__calc{
+
+.menu__button__calc {
   background: #E2F3D1;
 }
-.menu__button__exit{
+
+.menu__button__exit {
   background: #A69494;
 }
 
@@ -65,7 +84,5 @@
 
 .wrapper {
   border: 2px solid black;
-  min-height: 100%;
-  overflow: hidden;
+  height: 100%;
 }
-
