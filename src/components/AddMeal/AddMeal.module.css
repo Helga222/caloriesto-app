@@ -7,10 +7,9 @@ select {
 .meal__form {
   background-color: #D9D9D9;
   padding: 10px;
-
+  min-width: 500px;
+  overflow: auto;
 }
-
-.meal__type {}
 
 .meal__board {
   background-color: #D9F7BC;
@@ -80,7 +79,6 @@ select {
   width: 50%
 }
 
-.meal__search {}
 
 .meal__table {
   margin-top: 40px;

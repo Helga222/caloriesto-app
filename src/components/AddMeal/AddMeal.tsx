@@ -3,7 +3,6 @@ import styles from "./AddMeal.module.css";
 import { Meal, Product} from "../../meals";
 import { database } from "../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import Dropdown from "react-bootstrap/Dropdown";
 import { useState, useEffect } from "react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 
@@ -34,6 +33,7 @@ export const AddMeal = (props: any) => {
 
   useEffect(() => {
     getProducts();
+
   }, []);
 
   const getProducts = async () => {
@@ -42,6 +42,7 @@ export const AddMeal = (props: any) => {
     await getDocs(productsRef).then((querySnapshot) => {
       const newData = querySnapshot.docs.map((doc) => ({ ...doc.data() }));
       setProductsSearch(newData as Product[]);
+      setSelectedProd(newData[0] as Product)
       console.log(productsSearch, newData);
     });
     //await setSelectedProd(productsSearch[0])
@@ -53,9 +54,9 @@ export const AddMeal = (props: any) => {
   };
 
   const handleDeleteProduct = (index: number) => {
-    const newProducts = meal.products.filter(
-      (item) => item !== meal.products[index]
-    );
+
+    const newProducts = [...meal.products];
+    newProducts.splice(index, 1);
     setMeal({ ...meal, ...{ products: newProducts } });
   };
 
@@ -84,18 +85,11 @@ export const AddMeal = (props: any) => {
         </select>
       </div>
       <div className={`${styles.meal__board} ${styles.flex__column}`}>
-        {/* <input
-          type="search"
-          list="productName"
-          className={styles.meal__input__product}
-          placeholder="Введите название продукта"
-          onChange={handleInput}
-  />*/}
         <select
           className={styles.meal__input__product}
-          placeholder="Выберите из списка"
+          placeholder="Выберите из списка"  
           onChange={handleInput}
-          id="productName"
+          id="productName" defaultValue={0}
         >
           {list}
         </select>
