@@ -1,4 +1,4 @@
-import { MealList } from "../../meals";
+import { MealList } from "../../types";
 import { MealTable } from "../MealTable/MealTable";
 
 export const MealTableList = ({ meals, date }: MealList) => {

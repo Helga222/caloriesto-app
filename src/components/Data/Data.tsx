@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { MealList, mealConverter } from "../../meals";
+import { MealList} from "../../types";
 import styles from "./Data.module.css";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { database } from "../../firebaseConfig";
 import { NavLink, useParams } from "react-router-dom";
+import { mealConverter } from "../../converters";
 
 export const Data = (props: MealList) => {
   const { id } = useParams();

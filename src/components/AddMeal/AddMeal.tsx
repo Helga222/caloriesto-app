@@ -1,8 +1,8 @@
 import { MealTable } from "../MealTable/MealTable";
 import styles from "./AddMeal.module.css";
-import { Meal, Product } from "../../meals";
+import { Meal, Product } from "../../types";
 import { database } from "../../firebaseConfig";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 

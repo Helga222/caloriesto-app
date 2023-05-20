@@ -7,33 +7,23 @@ import { AddMealPage } from "./pages/AddMealPage";
 import { AuthenticationPage } from "./pages/AuthenticationPage";
 import { DataPage } from "./pages/DataPage";
 import { CalculatorPage } from "./pages/CalculatorPage";
-import { app, database } from "./firebaseConfig";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
-} from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { useState } from "react";
+import { Meal, MealList } from "./types";
 import {
-  collection,
-  addDoc,
-  setDoc,
-  doc,
-  getDoc,
-  updateDoc,
-} from "firebase/firestore";
-import {
-  Meal,
-  MealList,
-  mealConverter,
-  productArr,
-  userConverter,
-} from "./meals";
+  auth,
+  getDataFromFirebase,
+  loginFirebase,
+  logoutFirebase,
+  readMealListFirebase,
+  registerFirebase,
+  updateFirebaseData,
+  updateMealListFirebase,
+} from "./firebaseWork";
+import { calcCalorieGoal } from "./utils";
 
 function App() {
-  const [user, setUser] = useState({
+  const initialUserState = {
     email: "",
     password: "",
     name: "",
@@ -44,8 +34,9 @@ function App() {
     coeff: 1.2,
     calorieGoal: 0,
     id: "",
-  });
-  const auth = getAuth(app);
+  }
+  const [user, setUser] = useState(initialUserState);
+
   const currentDate = new Date(
     new Date().getFullYear(),
     new Date().getMonth(),
@@ -91,9 +82,6 @@ function App() {
       if (user) {
         readData(user.uid);
         readMealList(user.uid);
-        console.log(user.uid);
-      } else {
-        // User not logged in or has just logged out.
       }
     });
   }, []);
@@ -110,137 +98,63 @@ function App() {
   };
 
   const readData = async (id: string) => {
-    const dataToUpdate = doc(database, "users", id).withConverter(
-      userConverter
-    );
-
-    const data = await getDoc(dataToUpdate);
-    if (data.exists()) {
-      setUser(data.data());
+    const data = await getDataFromFirebase(id);
+    if (data.data) {
+      setUser(data.data);
       setMealDayList({ ...mealDayList, ...{ userId: data.id } });
     }
   };
 
   const readMealList = async (id: string) => {
-    const dataToUpdate = doc(
-      database,
-      "mealDayList",
-      `${currentDate.toLocaleDateString()}_${id}`
-    ).withConverter(mealConverter);
-
-    const data = await getDoc(dataToUpdate);
-    if (data.exists()) {
-      const mealList = { ...data.data() };
-      setMealDayList(mealList);
+    const newData = await readMealListFirebase(
+      id,
+      currentDate.toLocaleDateString()
+    );
+    if (newData.data) {
+      setMealDayList({ ...newData.data });
     }
   };
 
-  const updateData = async (id: string, goal?: number) => {
-    const dataToUpdate = doc(database, "users", id).withConverter(
-      userConverter
-    );
-
-    const data = await updateDoc(dataToUpdate, {
-      ...user,
-      ...{ calorieGoal: goal },
-    });
+  const updateData = (id: string, goal: number) => {
+    updateFirebaseData(id, user, goal);
   };
 
   const updateMealList = async (mealList: MealList) => {
     let dateString = currentDate.toLocaleDateString();
-    await setDoc(
-      doc(database, "mealDayList", `${dateString}_${user.id}`).withConverter(
-        mealConverter
-      ),
-      { ...mealList },
-      { merge: true }
-    );
+    updateMealListFirebase(mealList, dateString, user.id);
   };
 
-  const calcCalorieGoal = async (id: string) => {
-    if (!user.age || !user.height || !user.weight) {
-      return;
+  const onCalcCalorieGoal = async (id: string) => {
+    const goal = calcCalorieGoal(user);
+    if (goal) {
+      await setUser({ ...user, ...{ calorieGoal: goal } });
+
+      await updateData(id, goal);
     }
-
-    let bmr: number = 0;
-
-    if (user.gender === "мужской") {
-      bmr = 88.36 + 13.4 * user.weight + 4.8 * user.height - 5.7 * user.age;
-    } else {
-      bmr = 447.6 + 9.2 * user.weight + 3.1 * user.height - 4.3 * user.age;
-    }
-    const goal = Math.floor((bmr * user.coeff * 100) / 100);
-
-    await setUser({ ...user, ...{ calorieGoal: goal } });
-
-    await updateData(id, goal);
   };
 
   const handleRegister = () => {
-    createUserWithEmailAndPassword(auth, user.email, user.password)
-      .then((response) => {
-        console.log(response);
-        const userId = response.user.uid;
-        setDoc(doc(database, "users", userId), {
-          email: user.email,
-          password: user.password,
-          name: user.name,
-          weight: user.weight,
-          height: user.height,
-          coeff: user.coeff,
-          age: user.age,
-          gender: user.gender,
-          calorieGoal: user.calorieGoal,
-          id: userId,
-        })
-          .then(() => {
-            alert("Data added");
-          })
-          .catch((err) => alert(err.message));
-        setUser({ ...user, ...{ id: userId } });
+    if (user.email && user.password){
+      if (!user.name){
+        alert('Введите свое имя!');
+        return;
+      }
+      registerFirebase(user).then((userId) => {
+        setUser({...user,...{id:userId as string}} );
         navigate(`/accounts/${userId}`);
-      })
-      .catch((err) => {
-        alert(err.message);
       });
-  };
-
-  const addDataToDB = () => {
-    productArr.forEach((product) => {
-      addDoc(collection(database, "products"), {
-        name: product.name,
-        proteins: product.proteins,
-        fats: product.fats,
-        carbos: product.carbos,
-        calories: product.calories,
-      })
-        .then(() => {
-          alert("Data added");
-        })
-        .catch((err) => alert(err.message));
-    });
+    }
+    else alert('Введите логин и пароль!')
   };
 
   const logout = () => {
-    signOut(auth);
+    logoutFirebase();
+    setUser(initialUserState);
     navigate(`/`);
   };
 
   const handleSubmit = () => {
-    signInWithEmailAndPassword(auth, user.email, user.password)
-      .then((response) => {
-        const userId = response.user.uid;
-        navigate(`/accounts/${userId}`);
-      })
-      .catch((error) => {
-        if (error.code === "auth/wrong-password") {
-          alert("Пароль введен неверно(");
-        }
-        if (error.code === "auth/user-not-found") {
-          alert("Пользоваьельн не найден. Зарегестрируйтесь, пожалуйста)");
-          navigate("/registration");
-        }
-      });
+      loginFirebase(user.email, user.password, navigate);
   };
 
   return (
@@ -299,7 +213,7 @@ function App() {
           element={
             <CalculatorPage
               onHandleInput={handleInputs}
-              onHandleClick={calcCalorieGoal}
+              onHandleClick={onCalcCalorieGoal}
               onPageOpen={readData}
               age={user.age}
               height={user.height}

@@ -1,4 +1,4 @@
-import { Meal } from "../meals";
+import { Meal } from "../types";
 
 import styles from "../App.module.css";
 import { useNavigate, useParams } from "react-router-dom";

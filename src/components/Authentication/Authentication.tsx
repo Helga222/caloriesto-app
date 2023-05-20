@@ -23,7 +23,7 @@ export const Authentication = (props: any) => {
                 <input
                   type="text"
                   name="name"
-                  className={styles.auth__input}
+                  className={styles.auth__input} required
                   placeholder="никнейм"
                   onChange={handleChange}
                 />

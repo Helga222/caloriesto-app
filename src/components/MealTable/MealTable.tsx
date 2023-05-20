@@ -1,5 +1,5 @@
 import styles from "./MealTable.module.css";
-import { Product } from "../../meals";
+import { Product } from "../../types";
 
 export const MealTable = (props: {
   products: Product[];
