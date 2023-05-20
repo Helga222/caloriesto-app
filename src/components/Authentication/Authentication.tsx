@@ -1,39 +1,35 @@
-import { useNavigate } from "react-router-dom";
 import styles from "./Authentication.module.css";
 export const Authentication = (props: any) => {
-
-  const handleChange = (event:any)=>{
+  const handleChange = (event: any) => {
     props.onHandleInputs(event);
-  }
+  };
 
-
-
-  const handleSubmit = (event:any)=>{
+  const handleSubmit = (event: any) => {
     event.preventDefault();
     props.onHandleSubmit();
-
-  }
+  };
 
   return (
     <div className={styles.content}>
       <h1>Форма регистрации</h1>
-      <div className={styles.auth__form} >
+      <div className={styles.auth__form}>
         <div className={styles.form__content}>
-          { props.registration &&
-        <div className={styles.auth__row}>
-            <div className={styles.auth__column}>
-              <label className={styles.auth__login}>Имя:</label>
+          {props.registration && (
+            <div className={styles.auth__row}>
+              <div className={styles.auth__column}>
+                <label className={styles.auth__login}>Имя:</label>
+              </div>
+              <div className={styles.auth__column}>
+                <input
+                  type="text"
+                  name="name"
+                  className={styles.auth__input}
+                  placeholder="никнейм"
+                  onChange={handleChange}
+                />
+              </div>
             </div>
-            <div className={styles.auth__column}>
-              <input
-                type="text"
-                name='name'
-                className={styles.auth__input}
-                placeholder="никнейм"
-                onChange={handleChange}
-              />
-            </div>
-          </div>}
+          )}
           <div className={styles.auth__row}>
             <div className={styles.auth__column}>
               <label className={styles.auth__login}>Логин:</label>
@@ -41,7 +37,7 @@ export const Authentication = (props: any) => {
             <div className={styles.auth__column}>
               <input
                 type="text"
-                name='email'
+                name="email"
                 className={styles.auth__input}
                 placeholder="логин"
                 onChange={handleChange}
@@ -63,8 +59,8 @@ export const Authentication = (props: any) => {
             </div>
           </div>
           <div className={styles.auth__row}>
-            <button  onClick={handleSubmit} className={styles.auth__button}>
-              {props.registration ? 'Зарегестрироваться': 'Войти'}
+            <button onClick={handleSubmit} className={styles.auth__button}>
+              {props.registration ? "Зарегестрироваться" : "Войти"}
             </button>
           </div>
         </div>

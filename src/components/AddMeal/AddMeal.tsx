@@ -1,6 +1,6 @@
 import { MealTable } from "../MealTable/MealTable";
 import styles from "./AddMeal.module.css";
-import { Meal, Product} from "../../meals";
+import { Meal, Product } from "../../meals";
 import { database } from "../../firebaseConfig";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useState, useEffect } from "react";
@@ -24,7 +24,6 @@ export const AddMeal = (props: any) => {
   ));
 
   const handleInput = (event: any) => {
-    getProducts();
     if (productsSearch && productsSearch.length > 0) {
       const index = event.target.value;
       setSelectedProd(productsSearch[index]);
@@ -33,19 +32,16 @@ export const AddMeal = (props: any) => {
 
   useEffect(() => {
     getProducts();
-
   }, []);
 
   const getProducts = async () => {
     const productsRef = collection(database, "products");
-    //const q = query(productsRef, where("name", ">=", value));
     await getDocs(productsRef).then((querySnapshot) => {
       const newData = querySnapshot.docs.map((doc) => ({ ...doc.data() }));
       setProductsSearch(newData as Product[]);
-      setSelectedProd(newData[0] as Product)
+      setTimeout(() => setSelectedProd(newData[0] as Product), 0);
       console.log(productsSearch, newData);
     });
-    //await setSelectedProd(productsSearch[0])
   };
 
   const handleAddMeal = () => {
@@ -54,7 +50,6 @@ export const AddMeal = (props: any) => {
   };
 
   const handleDeleteProduct = (index: number) => {
-
     const newProducts = [...meal.products];
     newProducts.splice(index, 1);
     setMeal({ ...meal, ...{ products: newProducts } });
@@ -71,10 +66,13 @@ export const AddMeal = (props: any) => {
 
   return (
     <div className={styles.meal__form}>
-      <NavLink className={styles.meal__navlink} to={`/accounts/${id}`}>назад</NavLink>
+      <NavLink className={styles.meal__navlink} to={`/accounts/${id}`}>
+        назад
+      </NavLink>
       <div className={styles.meal__board}>
         Тип приема пищи:
-        <select value={meal.type}
+        <select
+          value={meal.type}
           onChange={(event: any) =>
             setMeal({ ...meal, ...{ type: event.target.value } })
           }
@@ -87,9 +85,9 @@ export const AddMeal = (props: any) => {
       <div className={`${styles.meal__board} ${styles.flex__column}`}>
         <select
           className={styles.meal__input__product}
-          placeholder="Выберите из списка"  
+          placeholder="Выберите из списка"
           onChange={handleInput}
-          id="productName" defaultValue={0}
+          id="productName"
         >
           {list}
         </select>
@@ -105,7 +103,7 @@ export const AddMeal = (props: any) => {
           deletable={meal.products.length}
           type={meal.type}
           onDeleteClick={handleDeleteProduct}
-        ></MealTable>
+        />
       </div>
       <div className={styles.flex__row}>
         <button className={styles.meal__button} onClick={handleAddMeal}>

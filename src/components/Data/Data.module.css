@@ -1,24 +1,25 @@
-.content{
+.content {
   background-color: #D9D9D9;
   min-width: 543px;
   overflow: auto;
 }
 
-.days__nav{
+.days__nav {
   display: block;
   margin-left: 10px;
   color: #8ebb64;
 }
-.table{
+
+.table {
   background: #D9F7BC;
   padding: 10px;
   margin: 40px 10px 10px 10px;
   border-radius: 27px;
 }
 
-.days{
+.days {
   background: #fff;
-  display:flex;
+  display: flex;
   justify-content: center;
 
   gap: 20px;
@@ -27,20 +28,15 @@
   padding: 20px;
 }
 
-.days__item{
+.days__item {
   background-color: #D9D9D9;
   border-radius: 27px;
-  width:150px;
+  width: 150px;
   text-align: center;
   display: flex;
   gap: 10px;
   justify-content: center;
 }
-
-/*.days__item:hover {
-  background-color: #A8AB9F;
-  cursor:pointer;
-}*/
 
 .table__column {
   display: flex;
@@ -49,21 +45,22 @@
 
 }
 
-.table__row{
+.table__row {
   display: flex;
 }
 
-.table__header{
+.table__header {
   background-color: #A8ABA0;
   border-radius: 37px;
-  width:60%;
+  width: 60%;
   margin: 0 12px 12px 12px;
   text-align: center;
-  
+
 }
-.table__day{
+
+.table__day {
   background-color: #D9D9D9;
-  width:60%;
+  width: 60%;
   margin: 0 12px 12px 12px;
   text-align: center;
 }

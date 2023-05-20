@@ -1,11 +1,7 @@
 import { useEffect } from "react";
 import styles from "./App.module.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {
-  Route,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
+import { Route, Routes, useNavigate } from "react-router-dom";
 import { MainPage } from "./pages/MainPage";
 import { AddMealPage } from "./pages/AddMealPage";
 import { AuthenticationPage } from "./pages/AuthenticationPage";
@@ -50,7 +46,11 @@ function App() {
     id: "",
   });
   const auth = getAuth(app);
-  const currentDate = new Date(new Date().getFullYear(),new Date().getMonth() , new Date().getDate());
+  const currentDate = new Date(
+    new Date().getFullYear(),
+    new Date().getMonth(),
+    new Date().getDate()
+  );
   const [editedMeal, setEditedMeal] = useState<Meal>();
   const [mealDayList, setMealDayList] = useState<MealList>({
     date: currentDate,
@@ -135,18 +135,19 @@ function App() {
     }
   };
 
-  const updateData = async (id: string,goal?:number) => {
+  const updateData = async (id: string, goal?: number) => {
     const dataToUpdate = doc(database, "users", id).withConverter(
       userConverter
     );
 
     const data = await updateDoc(dataToUpdate, {
-      ...user,...{calorieGoal:goal}
+      ...user,
+      ...{ calorieGoal: goal },
     });
   };
 
   const updateMealList = async (mealList: MealList) => {
-    let dateString= currentDate.toLocaleDateString();
+    let dateString = currentDate.toLocaleDateString();
     await setDoc(
       doc(database, "mealDayList", `${dateString}_${user.id}`).withConverter(
         mealConverter
@@ -171,10 +172,8 @@ function App() {
     const goal = Math.floor((bmr * user.coeff * 100) / 100);
 
     await setUser({ ...user, ...{ calorieGoal: goal } });
-    //setTimeout(()=> setUser({ ...user, ...{ calorieGoal: goal } }));
-    //setImmediate(() => updateData(id));
-    await updateData(id,goal);
 
+    await updateData(id, goal);
   };
 
   const handleRegister = () => {
@@ -190,7 +189,7 @@ function App() {
           height: user.height,
           coeff: user.coeff,
           age: user.age,
-          gender:user.gender,
+          gender: user.gender,
           calorieGoal: user.calorieGoal,
           id: userId,
         })
@@ -198,7 +197,7 @@ function App() {
             alert("Data added");
           })
           .catch((err) => alert(err.message));
-          setUser({...user,...{id:userId}});
+        setUser({ ...user, ...{ id: userId } });
         navigate(`/accounts/${userId}`);
       })
       .catch((err) => {
@@ -224,25 +223,24 @@ function App() {
 
   const logout = () => {
     signOut(auth);
-    navigate(`/`)
+    navigate(`/`);
   };
 
   const handleSubmit = () => {
     signInWithEmailAndPassword(auth, user.email, user.password)
       .then((response) => {
-        console.log(response);
         const userId = response.user.uid;
         navigate(`/accounts/${userId}`);
       })
       .catch((error) => {
-        if(error.code === 'auth/wrong-password'){
-          alert('Пароль введен неверно(');
+        if (error.code === "auth/wrong-password") {
+          alert("Пароль введен неверно(");
         }
-        if(error.code === 'auth/user-not-found'){
-          alert('Пользоваьельн не найден. Зарегестрируйтесь, пожалуйста)');
-          navigate('/registration');
+        if (error.code === "auth/user-not-found") {
+          alert("Пользоваьельн не найден. Зарегестрируйтесь, пожалуйста)");
+          navigate("/registration");
         }
-      })
+      });
   };
 
   return (

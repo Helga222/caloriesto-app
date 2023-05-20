@@ -1,5 +1,5 @@
 import { Timestamp } from "firebase/firestore";
-import { database } from "./firebaseConfig";
+
 
 export type Product = {
   name:string;
@@ -117,11 +117,7 @@ export const mealConverter = {
     return dataMeals;
 }};
 
-/*export const Tom:User = {
-  id:'12',
-  login:'Tom',
-  
-}*/
+
 
 export const productArr:Product[] =[
   {

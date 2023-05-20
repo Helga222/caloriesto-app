@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
 import styles from "./Calculator.module.css";
-import { User, userConverter } from "../../meals";
-import { database } from "../../firebaseConfig";
-import { doc, getDoc, updateDoc, collection, setDoc } from "firebase/firestore";
 import { NavLink, useParams } from "react-router-dom";
 
 export const Calculator = (props: any) => {
@@ -49,7 +46,10 @@ export const Calculator = (props: any) => {
 
   return (
     <div className={styles.calc__content}>
-      <div className={styles.calc__navlink}>      <NavLink  to={`/accounts/${id}`} >назад</NavLink></div>
+      <div className={styles.calc__navlink}>
+        {" "}
+        <NavLink to={`/accounts/${id}`}>назад</NavLink>
+      </div>
 
       <div className={styles.calc__text}>
         Калькулятор калорий позволит вам рассчитать то количество энергии,
@@ -135,7 +135,9 @@ export const Calculator = (props: any) => {
           <div className={styles.calc__value}>
             {params.calorieGoal.toFixed(2)} кКал
           </div>
-        ) : ''}
+        ) : (
+          ""
+        )}
       </div>
     </div>
   );
