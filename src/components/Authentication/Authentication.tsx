@@ -32,14 +32,14 @@ export const Authentication = (props: any) => {
           )}
           <div className={styles.auth__row}>
             <div className={styles.auth__column}>
-              <label className={styles.auth__login}>Логин:</label>
+              <label className={styles.auth__login}>Электронная почта:</label>
             </div>
             <div className={styles.auth__column}>
               <input
                 type="text"
                 name="email"
                 className={styles.auth__input}
-                placeholder="логин"
+                placeholder="почта"
                 onChange={handleChange}
               />
             </div>

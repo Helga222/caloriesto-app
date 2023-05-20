@@ -64,7 +64,10 @@ export const registerFirebase = (user: User) => {
       return userId;
     })
     .catch((err) => {
-      alert(err.message);
+      if (err.code === "auth/weak-password") {
+        alert("Этот пароль слабый, придумайте другой!");
+      }
+      
     });
 };
 

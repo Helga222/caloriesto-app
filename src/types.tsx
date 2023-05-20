@@ -16,6 +16,7 @@ export type MealList = {
   meals: Meal[];
   date: Date;
   userId?: string;
+  allCalories:number;
 };
 
 export type User = {

@@ -11,6 +11,11 @@ select {
   overflow: auto;
 }
 
+.meal__img{
+  width: 100px;
+  height: 50px;
+}
+
 .meal__board {
   background-color: #D9F7BC;
   border-radius: 37px;

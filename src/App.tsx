@@ -45,6 +45,7 @@ function App() {
   const [editedMeal, setEditedMeal] = useState<Meal>();
   const [mealDayList, setMealDayList] = useState<MealList>({
     date: currentDate,
+    allCalories:0,
     userId: user.id,
     meals: [
       {
@@ -93,8 +94,15 @@ function App() {
       (item) => item.type.toLowerCase() === currentType
     );
     newArr.meals[index] = meal;
-    setMealDayList(newArr);
-    updateMealList(newArr);
+
+    let sum=0;
+    mealDayList.meals.forEach(meal=>{
+      sum = sum + meal.products.reduce((acc,x)=>acc+x.calories,0);
+      return sum;
+    })
+
+    setMealDayList({...newArr,...{allCalories:sum}});
+    updateMealList({...newArr,...{allCalories:sum}});
   };
 
   const readData = async (id: string) => {
@@ -140,9 +148,12 @@ function App() {
         return;
       }
       registerFirebase(user).then((userId) => {
-        setUser({...user,...{id:userId as string}} );
-        navigate(`/accounts/${userId}`);
-      });
+        if (userId){
+          setUser({...user,...{id:userId as string}} );
+          navigate(`/accounts/${userId}`);
+        }
+
+      }).catch(err=>console.log(err));
     }
     else alert('Введите логин и пароль!')
   };
@@ -169,6 +180,7 @@ function App() {
               calorieGoal={user.calorieGoal}
               onEditMeal={handleEditMeal}
               onLogout={logout}
+              curCalories = {mealDayList.allCalories}
             />
           }
         />
@@ -206,7 +218,7 @@ function App() {
         />
         <Route
           path="/data/:id"
-          element={<DataPage date={currentDate} meals={mealDayList.meals} />}
+          element={<DataPage date={currentDate} allCalories={mealDayList.allCalories} meals={mealDayList.meals} />}
         />
         <Route
           path="/calculator/:id"

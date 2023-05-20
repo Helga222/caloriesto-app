@@ -1,5 +1,5 @@
 import { Meal } from "../types";
-
+import image from '../images/plant2.png'
 import styles from "../App.module.css";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
@@ -12,6 +12,7 @@ export const MainPage = (props: {
   calorieGoal: number;
   onEditMeal: any;
   onLogout: any;
+  curCalories:number;
 }) => {
   const { id } = useParams();
 
@@ -37,7 +38,7 @@ export const MainPage = (props: {
           <button
             className={`${styles.menu__button} ${styles.menu__button__rest} ${styles.menu__button__thick}`}
           >
-            Осталось 1500 кКал
+            Текущее количество: {props.curCalories} кКал
           </button>
           <button
             className={`${styles.menu__button} ${styles.menu__button__goal} ${styles.menu__button__thick}`}
@@ -72,6 +73,7 @@ export const MainPage = (props: {
           >
             Выход
           </button>
+          <img className={styles.menu_img} src={image}></img>
         </div>
         <div className={styles.menu__item}></div>
       </div>

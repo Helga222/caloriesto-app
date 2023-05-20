@@ -20,7 +20,7 @@ export const Data = (props: MealList) => {
   );
 
   const [mealListArray, setMealListArray] = useState<MealList[]>([
-    { meals: props.meals, date: props.date, userId: id },
+    { meals: props.meals, date: props.date, userId: id,allCalories:props.allCalories },
   ]);
   const [selectedDays, setSelectedDays] = useState("0");
 

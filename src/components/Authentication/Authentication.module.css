@@ -30,7 +30,7 @@ h1 {
 .auth__row {
   display: flex;
   flex-direction: row;
-  width: 30%;
+  width: 80%;
   gap: 10px;
   align-items: center;
 }

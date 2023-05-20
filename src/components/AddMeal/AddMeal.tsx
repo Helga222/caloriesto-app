@@ -5,6 +5,7 @@ import { database } from "../../firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
+import image from '../../images/pancake.png'
 
 export const AddMeal = (props: any) => {
   const { id } = useParams();
@@ -70,6 +71,7 @@ export const AddMeal = (props: any) => {
         назад
       </NavLink>
       <div className={styles.meal__board}>
+      <img className={styles.meal__img} src={image} alt="" />
         Тип приема пищи:
         <select
           value={meal.type}
