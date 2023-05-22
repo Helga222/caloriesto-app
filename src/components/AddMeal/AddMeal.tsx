@@ -67,13 +67,15 @@ export const AddMeal = (props: any) => {
 
   return (
     <div className={styles.meal__form}>
-      <NavLink className={styles.meal__navlink} to={`/accounts/${id}`}>
+      <div className={styles.meal__navlink}>
+      <NavLink  to={`/accounts/${id}`}>
         назад
       </NavLink>
+      </div>
       <div className={styles.meal__board}>
       <img className={styles.meal__img} src={image} alt="" />
         Тип приема пищи:
-        <select
+        <select className={styles.meal__select}
           value={meal.type}
           onChange={(event: any) =>
             setMeal({ ...meal, ...{ type: event.target.value } })

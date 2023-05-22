@@ -92,9 +92,12 @@ export const Data = (props: MealList) => {
 
   return (
     <div className={styles.content}>
-      <NavLink className={styles.days__nav} to={`/accounts/${id}`}>
+      <div className={styles.days__nav}>
+      <NavLink  to={`/accounts/${id}`}>
         назад
       </NavLink>
+      </div>
+
       <div className={styles.days}>
         <div className={styles.days__item}>
           <input

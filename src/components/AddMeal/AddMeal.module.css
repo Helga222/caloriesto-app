@@ -9,8 +9,11 @@ select {
   padding: 10px;
   min-width: 500px;
   overflow: auto;
+  flex: 1 1 auto;
 }
-
+.meal__select{
+  margin-left: 10px;
+}
 .meal__img{
   width: 100px;
   height: 50px;
@@ -27,13 +30,16 @@ select {
 }
 
 .meal__navlink {
-  color: #788b44;
-  display: block;
+
   margin-bottom: 5px;
+  text-align: right;
+}
+.meal__navlink a{
+  color: #788b44;
 }
 
-.meal__navlink:hover {
-  cursor: pointer;
+.meal__navlink a:hover {
+  color: blue;
 }
 
 .meal__input__product {
