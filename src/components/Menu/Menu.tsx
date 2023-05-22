@@ -25,7 +25,7 @@ export const Menu = (props: {
   return (
     <div className={styles.menu}>
       <div className={styles.menu__item}>
-        <button
+        <button onClick={()=>navigate(`accounts/${props.id}`)}
           className={`${styles.menu__button} ${styles.menu__button__user} ${styles.menu__button__thin}`}
         >
           <span className={styles.button__text}>{props.name}</span>
