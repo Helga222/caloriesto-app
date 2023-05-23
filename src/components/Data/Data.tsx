@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { MealList} from "../../types";
+import { MealList } from "../../types";
 import styles from "./Data.module.css";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { database } from "../../firebaseConfig";
@@ -20,15 +20,18 @@ export const Data = (props: MealList) => {
   );
 
   const [mealListArray, setMealListArray] = useState<MealList[]>([
-    { meals: props.meals, date: props.date, userId: id,allCalories:props.allCalories },
+    {
+      meals: props.meals,
+      date: props.date,
+      userId: id,
+      allCalories: props.allCalories,
+    },
   ]);
   const [selectedDays, setSelectedDays] = useState("0");
 
   const handleChange = (event: any) => {
     setSelectedDays(event.target.value);
   };
-
-  const createQuery = () => {};
 
   const calcDate = () => {
     endDate.setDate(currentDate.getDate() - Number(selectedDays));
@@ -61,12 +64,12 @@ export const Data = (props: MealList) => {
     }
 
     await getDocs(q).then((querySnapshot) => {
-      const newData = querySnapshot.docs.map((doc) => ({ ...doc.data() }));
+      const newData = querySnapshot.docs.map((doc, i) => ({ ...doc.data() }));
       setMealListArray(newData as MealList[]);
     });
   };
 
-  const list = mealListArray.map((mealList) => {
+  const list = mealListArray.map((mealList, i) => {
     mealList.meals.sort((a, b) =>
       a.type > b.type ? 1 : b.type > a.type ? -1 : 0
     );
@@ -77,10 +80,14 @@ export const Data = (props: MealList) => {
         0
       );
       resultCalories = resultCalories + totalCaloies;
-      return <div className={styles.table__day}>{totalCaloies}</div>;
+      return (
+        <div key={meal.type} className={styles.table__day}>
+          {totalCaloies}
+        </div>
+      );
     });
     return (
-      <div className={styles.table__row}>
+      <div key={i} className={styles.table__row}>
         <div className={styles.table__day}>
           {mealList.date.toLocaleDateString()}
         </div>
@@ -93,9 +100,7 @@ export const Data = (props: MealList) => {
   return (
     <div className={styles.content}>
       <div className={styles.days__nav}>
-      <NavLink  to={`/accounts/${id}`}>
-        назад
-      </NavLink>
+        <NavLink to={`/accounts/${id}`}>назад</NavLink>
       </div>
 
       <div className={styles.days}>

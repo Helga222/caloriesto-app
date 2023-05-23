@@ -10,9 +10,10 @@
   text-align: right;
 }
 
-.days__nav a{
+.days__nav a {
   color: #8ebb64;
 }
+
 .days__nav a:hover {
   color: blue;
 }

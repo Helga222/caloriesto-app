@@ -11,10 +11,12 @@ select {
   overflow: auto;
   flex: 1 1 auto;
 }
-.meal__select{
+
+.meal__select {
   margin-left: 10px;
 }
-.meal__img{
+
+.meal__img {
   width: 100px;
   height: 50px;
 }
@@ -34,7 +36,8 @@ select {
   margin-bottom: 5px;
   text-align: right;
 }
-.meal__navlink a{
+
+.meal__navlink a {
   color: #788b44;
 }
 

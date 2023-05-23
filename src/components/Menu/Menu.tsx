@@ -1,6 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./Menu.module.css";
-import image from "../../images/plant2.png";
+import sad_cat from "../../images/hungry_cat.png";
+import happy_cat from "../../images/happy_cat.png";
+import pusheen from "../../images/pusheen.png";
+
 import { useEffect, useRef, useState } from "react";
 export const Menu = (props: {
   name: string;
@@ -15,8 +18,6 @@ export const Menu = (props: {
   const [hideMenu, setHideMenu] = useState(true);
   const [hideMenuRoutes, setHideMenuRoutes] = useState(["/", "/registration"]);
 
-  const buttonRef = useRef(null);
-
   useEffect(() => {
     const hideMenu = hideMenuRoutes.includes(location.pathname);
     setHideMenu(hideMenu);
@@ -25,9 +26,10 @@ export const Menu = (props: {
   if (hideMenu) return null;
 
   return (
-    <div className={styles.menu} >
+    <div className={styles.menu}>
       <div className={styles.menu__item}>
-        <button onClick={()=>navigate(`accounts/${props.id}`)} 
+        <button
+          onClick={() => navigate(`accounts/${props.id}`)}
           className={`${styles.menu__button} ${styles.menu__button__user} ${styles.menu__button__thin}`}
         >
           <span className={styles.button__text}>{props.name}</span>
@@ -36,8 +38,9 @@ export const Menu = (props: {
         <button
           className={`${styles.menu__button__disabled} ${styles.menu__button__rest} ${styles.menu__button__thick}`}
         >
-          <span >
-            Текущее количество: <span className={styles.menu__text}>{props.curCalories} кКал</span>
+          <span>
+            Текущее количество:
+            <span className={styles.menu__text}>{props.curCalories} кКал</span>
           </span>
         </button>
         <button
@@ -81,10 +84,11 @@ export const Menu = (props: {
           <span className={styles.button__text}>Выход</span>
           <div className={styles.fill__container}></div>
         </button>
+
+        <img className={styles.menu_img} src={pusheen}></img>
+
       </div>
-      <div>
-        <img className={styles.menu_img} src={image}></img>
-      </div>
+
     </div>
   );
 };

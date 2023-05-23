@@ -22,7 +22,7 @@ export const MealTable = (props: {
     finalCarbos = finalCarbos + item.carbos;
     finalFats = finalFats + item.fats;
     return (
-      <div className={styles.foodList__item__row}>
+      <div key={item.name} className={styles.foodList__item__row}>
         <div className={styles.foodList__item__product}>{item.name}</div>
         <div className={styles.foodList__item__product}>{item.calories}</div>
         <div className={styles.foodList__item__product}>{item.proteins}</div>

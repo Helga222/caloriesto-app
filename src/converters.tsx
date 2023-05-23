@@ -47,7 +47,7 @@ export const mealConverter = {
         meals: meals,
         date: Timestamp.fromDate(mealList.date),
         userId: mealList.userId,
-        allCalories:mealList.allCalories
+        allCalories: mealList.allCalories,
       },
     };
   },
@@ -57,7 +57,12 @@ export const mealConverter = {
     const curDate = new Date(
       (data.date as unknown as Timestamp).seconds * 1000
     );
-    const dataMeals = { date: curDate, meals: data.meals, userId: data.userId,allCalories:data.allCalories };
+    const dataMeals = {
+      date: curDate,
+      meals: data.meals,
+      userId: data.userId,
+      allCalories: data.allCalories,
+    };
     return dataMeals;
   },
 };

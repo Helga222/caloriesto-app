@@ -15,9 +15,7 @@ code {
 html,
 body,
 #app,
-#app>div {
-
-}
+#app>div {}
 
 #root {
   height: 100vh;

@@ -43,7 +43,6 @@ export const updateFirebaseData = async (
 export const registerFirebase = (user: User) => {
   return createUserWithEmailAndPassword(auth, user.email, user.password)
     .then((response) => {
-      console.log(response);
       const userId = response.user.uid;
       setDoc(doc(database, "users", userId), {
         email: user.email,
@@ -57,9 +56,7 @@ export const registerFirebase = (user: User) => {
         calorieGoal: user.calorieGoal,
         id: userId,
       })
-        .then(() => {
-          alert("Data added");
-        })
+        .then(() => {})
         .catch((err) => alert(err.message));
       return userId;
     })
@@ -67,7 +64,6 @@ export const registerFirebase = (user: User) => {
       if (err.code === "auth/weak-password") {
         alert("Этот пароль слабый, придумайте другой!");
       }
-      
     });
 };
 
@@ -80,9 +76,7 @@ const addDataToDB = (productArr: Product[]) => {
       carbos: product.carbos,
       calories: product.calories,
     })
-      .then(() => {
-        alert("Data added");
-      })
+      .then(() => {})
       .catch((err) => alert(err.message));
   });
 };

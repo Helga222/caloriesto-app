@@ -8,7 +8,7 @@
 }
 
 .menu_img {
-  width: 200px;
+  width: 150px;
   height: 100px;
 
   filter: alpha(opacity=0);
@@ -40,23 +40,24 @@
   filter: drop-shadow(5px 5px 1px rgba(0, 0, 0, 0.25));
 
   box-shadow:
-  -1px -1px 10px 1px rgb(110, 106, 106),
-  1px 1px 15px 1px rgb(255, 255, 255);
+    -1px -1px 10px 1px rgb(110, 106, 106),
+    1px 1px 15px 1px rgb(255, 255, 255);
 }
 
-.menu__button__disabled{
+.menu__button__disabled {
   flex: 1 1 auto;
   border: none;
   border-radius: 27px;
   margin-bottom: 10px;
   box-shadow:
-  0 5px 10px rgb(220, 214, 214),
-  -1px -1px 15px 1px rgb(219, 212, 214);
+    0 5px 10px rgb(220, 214, 214),
+    -1px -1px 15px 1px rgb(219, 212, 214);
 }
 
-.menu__text{
+.menu__text {
   white-space: nowrap;
 }
+
 .menu__button .button__text {
   position: relative;
   z-index: 2;
@@ -78,7 +79,7 @@
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(217, 217, 217,0.5);
+  background-color: rgba(217, 217, 217, 0.5);
   transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
   transform: translateY(-100%);
 }
@@ -99,11 +100,11 @@
 }
 
 
-.menu__button:focus  {
+.menu__button:active {
   border: 2px solid rgb(61, 143, 84);
   box-shadow:
-  -2px -2px 20px 1px rgb(110, 106, 106),
-  1px 1px 15px 1px rgb(95, 87, 87);
+    -2px -2px 20px 1px rgb(110, 106, 106),
+    1px 1px 15px 1px rgb(95, 87, 87);
 }
 
 .menu__button__thin {

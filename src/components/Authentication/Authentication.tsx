@@ -13,7 +13,6 @@ export const Authentication = (props: any) => {
     <div className={styles.content}>
       <h1>Форма регистрации</h1>
       <div className={styles.auth__form}>
-    
         <div className={styles.form__content}>
           {props.registration && (
             <div className={styles.auth__row}>
@@ -24,7 +23,8 @@ export const Authentication = (props: any) => {
                 <input
                   type="text"
                   name="name"
-                  className={styles.auth__input} required
+                  className={styles.auth__input}
+                  required
                   placeholder="никнейм"
                   onChange={handleChange}
                 />
@@ -64,7 +64,7 @@ export const Authentication = (props: any) => {
               {props.registration ? "Зарегестрироваться" : "Войти"}
             </button>
           </div>
-          </div>
+        </div>
       </div>
     </div>
   );

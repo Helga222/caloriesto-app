@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import styles from "./App.module.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { MainPage } from "./pages/MainPage";
 import { AddMealPage } from "./pages/AddMealPage";
 import { AuthenticationPage } from "./pages/AuthenticationPage";
@@ -10,7 +10,6 @@ import { CalculatorPage } from "./pages/CalculatorPage";
 import { onAuthStateChanged } from "firebase/auth";
 import { useState } from "react";
 import { Meal, MealList } from "./types";
-import image from "./images/plant2.png";
 import {
   auth,
   getDataFromFirebase,
@@ -91,6 +90,7 @@ function App() {
 
   const addMealToDayList = (meal: Meal) => {
     const currentType = meal.type.toLowerCase();
+
     const newArr = { ...mealDayList };
     const index = newArr.meals.findIndex(
       (item) => item.type.toLowerCase() === currentType
@@ -144,6 +144,17 @@ function App() {
   };
 
   const handleRegister = () => {
+    setUser({
+      ...user,
+      ...{
+        age: initialUserState.age,
+        calorieGoal: initialUserState.calorieGoal,
+        height: initialUserState.height,
+        gender: initialUserState.gender,
+        weight: initialUserState.weight,
+        coeff: initialUserState.coeff,
+      },
+    });
     if (user.email && user.password) {
       if (!user.name) {
         alert("Введите свое имя!");
@@ -173,7 +184,14 @@ function App() {
   return (
     <div className={styles.wrapper}>
       <div className={styles.content}>
-        <Menu name={user.name} onLogout={logout} id={user.id} curCalories={mealDayList.allCalories} calorieGoal={user.calorieGoal} onEditMeal={handleEditMeal}/>
+        <Menu
+          name={user.name}
+          onLogout={logout}
+          id={user.id}
+          curCalories={mealDayList.allCalories}
+          calorieGoal={user.calorieGoal}
+          onEditMeal={handleEditMeal}
+        />
         <Routes>
           <Route
             path="/"
@@ -195,7 +213,7 @@ function App() {
               />
             }
           />
-                    <Route
+          <Route
             path="/accounts/:id"
             element={
               <MainPage

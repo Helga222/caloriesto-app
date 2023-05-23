@@ -1,8 +1,6 @@
 import { Meal } from "../types";
 
 import styles from "../App.module.css";
-import { useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
 
 import { MealTable } from "../components/MealTable/MealTable";
 
@@ -12,46 +10,31 @@ export const MainPage = (props: {
   calorieGoal: number;
   onEditMeal: any;
   onLogout: any;
-  curCalories:number;
+  curCalories: number;
 }) => {
-  const { id } = useParams();
-
-  const [name, setName] = useState(props.name);
-  const [calorieGoal, setCalorieGoal] = useState(props.calorieGoal);
-  const [restGoal, setRestGoal] = useState("");
-
-  const navigate = useNavigate();
-  const routeChange = () => {
-    let path = `/calculator/${id}`;
-    navigate(path);
-  };
-
   return (
-
-
-      <div className={styles.foodList}>
-        <MealTable
-          deletable={0}
-          products={props.meals[0].products}
-          index={0}
-          onEditMeal={props.onEditMeal}
-          type={props.meals[0].type}
-        />
-        <MealTable
-          deletable={0}
-          products={props.meals[1].products}
-          index={1}
-          onEditMeal={props.onEditMeal}
-          type={props.meals[1].type}
-        />
-        <MealTable
-          deletable={0}
-          products={props.meals[2].products}
-          index={2}
-          onEditMeal={props.onEditMeal}
-          type={props.meals[2].type}
-        />
-      </div>
-
+    <div className={styles.foodList}>
+      <MealTable
+        deletable={0}
+        products={props.meals[0].products}
+        index={0}
+        onEditMeal={props.onEditMeal}
+        type={props.meals[0].type}
+      />
+      <MealTable
+        deletable={0}
+        products={props.meals[1].products}
+        index={1}
+        onEditMeal={props.onEditMeal}
+        type={props.meals[1].type}
+      />
+      <MealTable
+        deletable={0}
+        products={props.meals[2].products}
+        index={2}
+        onEditMeal={props.onEditMeal}
+        type={props.meals[2].type}
+      />
+    </div>
   );
 };

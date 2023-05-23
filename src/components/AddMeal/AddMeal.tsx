@@ -5,7 +5,7 @@ import { database } from "../../firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 import { useState, useEffect } from "react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
-import image from '../../images/pancake.png'
+import image from "../../images/pancake.png";
 
 export const AddMeal = (props: any) => {
   const { id } = useParams();
@@ -21,7 +21,9 @@ export const AddMeal = (props: any) => {
   });
 
   const list = productsSearch.map((item: any, index: number) => (
-    <option value={index}>{item.name}</option>
+    <option key={index} value={index}>
+      {item.name}
+    </option>
   ));
 
   const handleInput = (event: any) => {
@@ -41,7 +43,6 @@ export const AddMeal = (props: any) => {
       const newData = querySnapshot.docs.map((doc) => ({ ...doc.data() }));
       setProductsSearch(newData as Product[]);
       setTimeout(() => setSelectedProd(newData[0] as Product), 0);
-      console.log(productsSearch, newData);
     });
   };
 
@@ -68,14 +69,13 @@ export const AddMeal = (props: any) => {
   return (
     <div className={styles.meal__form}>
       <div className={styles.meal__navlink}>
-      <NavLink  to={`/accounts/${id}`}>
-        назад
-      </NavLink>
+        <NavLink to={`/accounts/${id}`}>назад</NavLink>
       </div>
       <div className={styles.meal__board}>
-      <img className={styles.meal__img} src={image} alt="" />
+        <img className={styles.meal__img} src={image} alt="" />
         Тип приема пищи:
-        <select className={styles.meal__select}
+        <select
+          className={styles.meal__select}
           value={meal.type}
           onChange={(event: any) =>
             setMeal({ ...meal, ...{ type: event.target.value } })

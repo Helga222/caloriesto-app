@@ -8,12 +8,6 @@
   height: 100%;
 }
 
-.foodList_content{
-
-}
-
-
-
 .foodList {
   background: #A69494;
   flex: 1 1 auto;
@@ -26,15 +20,8 @@
   min-width: 550px;
 }
 
-
-
-
-
 .wrapper {
-  border: 2px solid black;
-  overflow:auto;
-
+  overflow: auto;
   height: 100%;
-  
-}
 
+}
