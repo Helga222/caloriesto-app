@@ -39,7 +39,7 @@ export const Menu = (props: {
           className={`${styles.menu__button__disabled} ${styles.menu__button__rest} ${styles.menu__button__thick}`}
         >
           <span>
-            Текущее количество:
+            Текущее количество:{" "}
             <span className={styles.menu__text}>{props.curCalories} кКал</span>
           </span>
         </button>
