@@ -64,6 +64,9 @@ export const registerFirebase = (user: User) => {
       if (err.code === "auth/weak-password") {
         alert("Этот пароль слабый, придумайте другой!");
       }
+      if (err.code === "auth/email-already-in-use") {
+        alert("Пользователь уже зарегестрирован!");
+      }
     });
 };
 

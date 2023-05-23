@@ -23,5 +23,5 @@
 .wrapper {
   overflow: auto;
   height: 100%;
-
+  min-height: 633px;
 }

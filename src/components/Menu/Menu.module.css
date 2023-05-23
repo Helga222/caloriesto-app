@@ -8,9 +8,10 @@
 }
 
 .menu_img {
-  width: 150px;
-  height: 100px;
-
+  max-width: 150px;
+  max-height: 100px;
+  display: block;
+  margin: 0 auto;
   filter: alpha(opacity=0);
   z-index: -1;
   background: rgba(0, 0, 0, 0);
